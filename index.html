@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="feWeb — Criação de sites profissionais e web design moderno para empresas e empreendedores. Sites rápidos, responsivos e otimizados para SEO.">
+    <title>feWeb | Criação de Sites & Web Design Profissional</title>
+    <link rel="icon" href="/logo.png" type="image/png">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        primary: '#1E3A8A',
+                        secondary: '#06B6D4',
+                        accent: '#10B981',
+                        dark: '#0F172A',
+                        'dark-lighter': '#1E293B',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        },
+                        fadeInUp: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideInLeft: {
+                            '0%': { opacity: '0', transform: 'translateX(-30px)' },
+                            '100%': { opacity: '1', transform: 'translateX(0)' },
+                        },
+                        gradient: {
+                            '0%': { backgroundPosition: '0% 50%' },
+                            '50%': { backgroundPosition: '100% 50%' },
+                            '100%': { backgroundPosition: '0% 50%' },
+                        },
+                    },
+                    animation: {
+                        float: 'float 3s ease-in-out infinite',
+                        fadeInUp: 'fadeInUp 0.6s ease-out forwards',
+                        slideInLeft: 'slideInLeft 0.6s ease-out forwards',
+                        gradient: 'gradient 8s ease infinite',
+                    },
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #0F172A; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(to bottom, #1E3A8A, #06B6D4); border-radius: 4px; }
+        
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+        
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, #1E3A8A, #06B6D4, #10B981);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 4s ease infinite;
+        }
+        
+        /* Glass effect */
+        .glass {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(6, 182, 212, 0.1);
+        }
+        
+        /* Hover card glow */
+        .glow-card:hover {
+            box-shadow: 0 0 30px rgba(6, 182, 212, 0.2), 0 0 60px rgba(30, 58, 138, 0.1);
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        
+        /* Typing cursor effect */
+        .typing-cursor::after {
+            content: '|';
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        
+        /* Particle effect background */
+        .particles-bg {
+            position: relative;
+            overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #06B6D4;
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="bg-dark text-white font-sans antialiased">
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Logo -->
+                <a href="#home" class="flex items-center space-x-3 group">
+                    <img src="/logo.png" alt="feWeb Logo" class="h-12 w-auto transition-transform group-hover:scale-105">
+                    <span class="text-2xl font-bold tracking-tight">
+                        <span class="gradient-text">fe</span><span class="text-white">Web</span>
+                    </span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#servicos" class="text-gray-300 hover:text-secondary transition-colors duration-200 font-medium">Serviços</a>
+                    <a href="#portfolio" class="text-gray-300 hover:text-secondary transition-colors duration-200 font-medium">Portfólio</a>
+                    <a href="#processo" class="text-gray-300 hover:text-secondary transition-colors duration-200 font-medium">Processo</a>
+                    <a href="#precos" class="text-gray-300 hover:text-secondary transition-colors duration-200 font-medium">Preços</a>
+                    <a href="#contato" class="bg-gradient-to-r from-primary to-secondary text-white px-6 py-2.5 rounded-full font-semibold hover:shadow-lg hover:shadow-cyan-500/30 transition-all duration-300 transform hover:scale-105">
+                        Fale Conosco
+                    </a>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <button id="mobile-menu-btn" class="md:hidden text-gray-300 hover:text-white focus:outline-none">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden glass border-t border-gray-800">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="#servicos" class="block px-3 py-2 text-gray-300 hover:text-secondary hover:bg-white/5 rounded-lg transition-colors">Serviços</a>
+                <a href="#portfolio" class="block px-3 py-2 text-gray-300 hover:text-secondary hover:bg-white/5 rounded-lg transition-colors">Portfólio</a>
+                <a href="#processo" class="block px-3 py-2 text-gray-300 hover:text-secondary hover:bg-white/5 rounded-lg transition-colors">Processo</a>
+                <a href="#precos" class="block px-3 py-2 text-gray-300 hover:text-secondary hover:bg-white/5 rounded-lg transition-colors">Preços</a>
+                <a href="#contato" class="block px-3 py-2 bg-gradient-to-r from-primary to-secondary text-white rounded-lg font-semibold text-center">Fale Conosco</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative min-h-screen flex items-center particles-bg overflow-hidden">
+        <!-- Animated background elements -->
+        <div class="absolute inset-0">
+            <div class="absolute top-20 left-10 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-float" style="animation-delay: 1s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-accent/5 rounded-full blur-3xl"></div>
+        </div>
+        
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Text Content -->
+                <div class="space-y-8">
+                    <div class="animate-fadeInUp">
+                        <p class="text-secondary font-mono text-sm mb-4 tracking-wide uppercase">🚀 Agência Digital Especializada</p>
+                        <h1 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
+                            Criamos sites que <br/>
+                            <span class="gradient-text typing-cursor" id="hero-text">transformam visitantes em clientes</span>
+                        </h1>
+                        <p class="text-xl text-gray-400 max-w-lg leading-relaxed">
+                            Design moderno, performance impressionante e estratégia digital completa para seu negócio crescer na internet.
+                        </p>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-4 animate-fadeInUp" style="animation-delay: 0.2s;">
+                        <a href="#contato" class="group bg-gradient-to-r from-primary to-secondary text-white px-8 py-4 rounded-full font-bold text-lg hover:shadow-xl hover:shadow-cyan-500/30 transition-all duration-300 transform hover:scale-105 flex items-center gap-2">
+                            Começar Projeto
+                            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+                        </a>
+                        <a href="#portfolio" class="border-2 border-gray-700 text-gray-300 px-8 py-4 rounded-full font-bold text-lg hover:border-secondary hover:text-white transition-all duration-300">
+                            Ver Portfólio
+                        </a>
+                    </div>
+                    
+                    <!-- Stats -->
+                    <div class="grid grid-cols-3 gap-8 pt-8 border-t border-gray-800 animate-fadeInUp" style="animation-delay: 0.4s;">
+                        <div>
+                            <p class="text-3xl font-bold gradient-text">150+</p>
+                            <p class="text-gray-500 text-sm mt-1">Projetos Entregues</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold gradient-text">98%</p>
+                            <p class="text-gray-500 text-sm mt-1">Clientes Satisfeitos</p>
+                        </div>
+                        <div>
+                            <p class="text-3xl font-bold gradient-text">5 anos</p>
+                            <p class="text-gray-500 text-sm mt-1">De Experiência</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Visual Element -->
+                <div class="hidden lg:block relative animate-slideInLeft">
+                    <div class="relative">
+                        <!-- Code Editor Mockup -->
+                        <div class="glass rounded-2xl p-6 shadow-2xl border border-gray-700/50 transform rotate-1 hover:rotate-0 transition-transform duration-500">
+                            <div class="flex items-center space-x-2 mb-4">
+                                <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
+                                <div class="w-3 h-3 rounded-full bg-green-500"></div>
+                                <span class="ml-4 text-xs text-gray-500 font-mono">index.html</span>
+                            </div>
+                            <pre class="text-sm font-mono text-gray-300 overflow-x-auto"><code>&lt;<span class="text-primary">html</span> lang=<span class="text-secondary">"pt-BR"</span>&gt;
+&lt;<span class="text-primary">body</span>&gt;
+  &lt;<span class="text-primary">header</span>&gt;
+    &lt;<span class="text-accent">h1</span>&gt;
+      Seu Sucesso
+      Online Começa
+      Aqui
+    &lt;/<span class="text-accent">h1</span>&gt;
+  &lt;/<span class="text-primary">header</span>&gt;
+&lt;/<span class="text-primary">body</span>&gt;
+&lt;/<span class="text-primary">html</span>&gt;</code></pre>
+                        </div>
+                        
+                        <!-- Floating Elements -->
+                        <div class="absolute -top-8 -right-8 glass rounded-xl p-4 animate-float">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Site publicado!</p>
+                                    <p class="text-xs text-gray-500">há 2 minutos</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute -bottom-6 -left-6 glass rounded-xl p-4 animate-float" style="animation-delay: 1.5s;">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-secondary/20 rounded-lg flex items-center justify-center">
+                                    <svg class="w-6 h-6 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-semibold">Performance:</p>
+                                    <p class="text-xs text-gray-500">99/100 no PageSpeed</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="servicos" class="py-24 bg-dark-lighter/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-secondary font-mono text-sm mb-4 tracking-wide uppercase">O Que Fazemos</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Soluções completas para seu <span class="gradient-text">negócio digital</span></h2>
+                <p class="text-gray-400 text-xl max-w-3xl mx-auto">Do conceito ao lançamento, criamos experiências digitais memoráveis que geram resultados reais.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service Card 1 -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Websites Institucionais</h3>
+                    <p class="text-gray-400 leading-relaxed">Sites profissionais que comunicam a essência da sua marca e convertem visitantes em clientes.</p>
+                </div>
+                
+                <!-- Service Card 2 -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <div class="w-14 h-14 bg-gradient-to-br from-secondary to-accent rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">E-commerce</h3>
+                    <p class="text-gray-400 leading-relaxed">Lojas virtuais otimizadas para vendas, com experiência de compra fluida e segura.</p>
+                </div>
+                
+                <!-- Service Card 3 -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent to-primary rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3a6 6 0 00-6 6v2a6 6 0 006 6 6 6 0 006-6V9a6 6 0 00-6-6zm0 9v2m0 2h.01M18 7v8a2 2 0 01-2 2H8a2 2 0 01-2-2v-8"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Landing Pages</h3>
+                    <p class="text-gray-400 leading-relaxed">Páginas de alta conversão para campanhas de marketing e lançamentos de produtos.</p>
+                </div>
+                
+                <!-- Service Card 4 -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <div class="w-14 h-14 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Design Responsivo</h3>
+                    <p class="text-gray-400 leading-relaxed">Sites perfeitos em qualquer dispositivo — desktop, tablet ou smartphone.</p>
+                </div>
+                
+                <!-- Service Card 5 -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <div class="w-14 h-14 bg-gradient-to-br from-secondary to-primary rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">SEO Avançado</h3>
+                    <p class="text-gray-400 leading-relaxed">Otimização para mecanismos de busca que coloca seu site nas primeiras posições do Google.</p>
+                </div>
+                
+                <!-- Service Card 6 -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <div class="w-14 h-14 bg-gradient-to-br from-accent to-secondary rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Manutenção & Suporte</h3>
+                    <p class="text-gray-400 leading-relaxed">Suporte contínuo, atualizações de segurança e melhorias constantes para seu site.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-secondary font-mono text-sm mb-4 tracking-wide uppercase">Nosso Trabalho</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Projetos que <span class="gradient-text">geram resultados</span></h2>
+                <p class="text-gray-400 text-xl max-w-3xl mx-auto">Cada projeto é uma história de sucesso. Veja alguns dos nossos trabalhos mais recentes.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Portfolio Item 1 -->
+                <div class="group relative overflow-hidden rounded-2xl glow-card">
+                    <div class="aspect-video bg-gradient-to-br from-primary to-secondary p-8 flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-white/50 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
+                            <p class="text-white font-semibold text-lg">TechCorp Brasil</p>
+                            <p class="text-white/60 text-sm">Website Corporativo</p>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div>
+                            <p class="text-white font-bold text-lg">TechCorp Brasil</p>
+                            <p class="text-gray-300 text-sm">Redesign completo • Aumento de 150% nas consultas</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 2 -->
+                <div class="group relative overflow-hidden rounded-2xl glow-card">
+                    <div class="aspect-video bg-gradient-to-br from-secondary to-accent p-8 flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-white/50 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                            <p class="text-white font-semibold text-lg">ModaVibe Store</p>
+                            <p class="text-white/60 text-sm">E-commerce</p>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div>
+                            <p class="text-white font-bold text-lg">ModaVibe Store</p>
+                            <p class="text-gray-300 text-sm">Loja virtual completa • R$500k em vendas no primeiro mês</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Portfolio Item 3 -->
+                <div class="group relative overflow-hidden rounded-2xl glow-card">
+                    <div class="aspect-video bg-gradient-to-br from-accent to-primary p-8 flex items-center justify-center">
+                        <div class="text-center">
+                            <svg class="w-16 h-16 text-white/50 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                            <p class="text-white font-semibold text-lg">EventMax Pro</p>
+                            <p class="text-white/60 text-sm">Landing Page</p>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div>
+                            <p class="text-white font-bold text-lg">EventMax Pro</p>
+                            <p class="text-gray-300 text-sm">Landing page de evento • 2.000 inscrições captadas</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section id="processo" class="py-24 bg-dark-lighter/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-secondary font-mono text-sm mb-4 tracking-wide uppercase">Como Trabalhamos</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Processo simples, resultado <span class="gradient-text">impressionante</span></h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Step 1 -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl font-bold">01</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Descoberta</h3>
+                    <p class="text-gray-400">Entendemos seu negócio, objetivos e público-alvo para criar a estratégia perfeita.</p>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-secondary to-accent rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl font-bold">02</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Design</h3>
+                    <p class="text-gray-400">Criamos protótipos visuais únicos que refletem sua marca e encantam usuários.</p>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-accent to-primary rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl font-bold">03</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Desenvolvimento</h3>
+                    <p class="text-gray-400">Transformamos o design em código limpo, rápido e otimizado para performance.</p>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="text-center group">
+                    <div class="w-16 h-16 bg-gradient-to-br from-primary to-accent rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
+                        <span class="text-2xl font-bold">04</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Lançamento</h3>
+                    <p class="text-gray-400">Publicamos, otimizamos e oferecemos suporte contínuo para seu sucesso.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="precos" class="py-24">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <p class="text-secondary font-mono text-sm mb-4 tracking-wide uppercase">Investimento</p>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6">Planos que cabem no seu <span class="gradient-text">orçamento</span></h2>
+                <p class="text-gray-400 text-xl max-w-3xl mx-auto">Escolha o plano ideal para seu momento. Todos incluem design premium e suporte.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+                <!-- Starter Plan -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-2">Starter</h3>
+                    <p class="text-gray-400 text-sm mb-6">Ideal para começar</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$1.500</span>
+                        <span class="text-gray-500">/único</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Site de até 5 páginas</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Design responsivo</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">SEO básico</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-gray-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                            <span class="text-gray-500">Blog integrado</span>
+                        </li>
+                    </ul>
+                    <a href="#contato" class="block w-full py-3 border-2 border-gray-700 text-center rounded-full font-semibold hover:border-secondary hover:text-secondary transition-colors">
+                        Escolher Plano
+                    </a>
+                </div>
+                
+                <!-- Professional Plan -->
+                <div class="glow-card glass rounded-2xl p-8 border-2 border-secondary relative transform md:-translate-y-4">
+                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2 bg-gradient-to-r from-primary to-secondary px-4 py-1 rounded-full text-sm font-bold">
+                        Mais Popular
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Profissional</h3>
+                    <p class="text-gray-400 text-sm mb-6">Para negócios sérios</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold gradient-text">R$3.500</span>
+                        <span class="text-gray-500">/único</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Site de até 15 páginas</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Design premium personalizado</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">SEO avançado + Analytics</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Blog integrado + CMS</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">3 meses de suporte</span>
+                        </li>
+                    </ul>
+                    <a href="#contato" class="block w-full py-3 bg-gradient-to-r from-primary to-secondary text-center rounded-full font-bold hover:shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:scale-105">
+                        Escolher Plano
+                    </a>
+                </div>
+                
+                <!-- Enterprise Plan -->
+                <div class="glow-card glass rounded-2xl p-8 border border-gray-800">
+                    <h3 class="text-xl font-bold mb-2">Enterprise</h3>
+                    <p class="text-gray-400 text-sm mb-6">Solução completa</p>
+                    <div class="mb-6">
+                        <span class="text-4xl font-bold">R$8.000</span>
+                        <span class="text-gray-500">/a partir de</span>
+                    </div>
+                    <ul class="space-y-3 mb-8">
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Páginas ilimitadas</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">E-commerce completo</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Integrações personalizadas</span>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <svg class="w-5 h-5 text-accent flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
+                            <span class="text-gray-300">Suporte prioritário 24/7</span>
+                        </li>
+                    </ul>
+                    <a href="#contato" class="block w-full py-3 border-2 border-gray-700 text-center rounded-full font-semibold hover:border-secondary hover:text-secondary transition-colors">
+                        Falar com Consultor
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contato" class="py-24 bg-dark-lighter/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+                <!-- Left Side -->
+                <div>
+                    <p class="text-secondary font-mono text-sm mb-4 tracking-wide uppercase">Vamos Conversar</p>
+                    <h2 class="text-4xl md:text-5xl font-bold mb-6">Pronto para transformar sua <span class="gradient-text">presença digital</span>?</h2>
+                    <p class="text-gray-400 text-xl mb-12 leading-relaxed">Entre em contato e vamos discutir como podemos ajudar seu negócio a crescer na internet. Responderemos em até 24 horas!</p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-primary to-secondary rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Email</h3>
+                                <a href="mailto:contato@feweb.com.br" class="text-gray-400 hover:text-secondary transition-colors">contato@feweb.com.br</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-secondary to-accent rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">WhatsApp</h3>
+                                <a href="https://wa.me/5511999999999" class="text-gray-400 hover:text-secondary transition-colors">(11) 99999-9999</a>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-accent to-primary rounded-xl flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Localização</h3>
+                                <p class="text-gray-400">Atendemos todo o Brasil remotamente</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Side - Contact Form -->
+                <div class="glass rounded-2xl p-8 border border-gray-800">
+                    <form id="contact-form" class="space-y-6">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Nome *</label>
+                                <input type="text" required class="w-full px-4 py-3 bg-dark border border-gray-700 rounded-xl focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-white placeholder-gray-600" placeholder="Seu nome completo">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Email *</label>
+                                <input type="email" required class="w-full px-4 py-3 bg-dark border border-gray-700 rounded-xl focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-white placeholder-gray-600" placeholder="seu@email.com">
+                            </div>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Telefone</label>
+                                <input type="tel" class="w-full px-4 py-3 bg-dark border border-gray-700 rounded-xl focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-white placeholder-gray-600" placeholder="(00) 00000-0000">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium mb-2">Orçamento</label>
+                                <select class="w-full px-4 py-3 bg-dark border border-gray-700 rounded-xl focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-white">
+                                    <option value="">Selecione...</option>
+                                    <option value="starter">Starter (R$1.500)</option>
+                                    <option value="professional">Profissional (R$3.500)</option>
+                                    <option value="enterprise">Enterprise (R$8.000+)</option>
+                                    <option value="custom">Projeto Personalizado</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium mb-2">Conte-nos sobre seu projeto *</label>
+                            <textarea rows="5" required class="w-full px-4 py-3 bg-dark border border-gray-700 rounded-xl focus:border-secondary focus:ring-2 focus:ring-secondary/20 outline-none transition-all text-white placeholder-gray-600 resize-none" placeholder="Descreva seu projeto, objetivos e qualquer detalhe importante..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-primary to-secondary text-white py-4 rounded-xl font-bold text-lg hover:shadow-lg hover:shadow-cyan-500/30 transition-all transform hover:scale-[1.02] flex items-center justify-center space-x-2">
+                            <span>Enviar Mensagem</span>
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <div class="flex items-center space-x-3 mb-4 md:mb-0">
+                    <img src="/logo.png" alt="feWeb Logo" class="h-10 w-auto">
+                    <span class="text-xl font-bold">
+                        <span class="gradient-text">fe</span><span class="text-white">Web</span>
+                    </span>
+                </div>
+                
+                <div class="flex items-center space-x-6 mb-4 md:mb-0">
+                    <a href="#" class="text-gray-400 hover:text-secondary transition-colors">Instagram</a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition-colors">LinkedIn</a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition-colors">Behance</a>
+                    <a href="#" class="text-gray-400 hover:text-secondary transition-colors">Dribbble</a>
+                </div>
+                
+                <p class="text-gray-600 text-sm">&copy; 2024 feWeb. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script>
+        // Navbar scroll effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('glass', 'shadow-lg');
+            } else {
+                navbar.classList.remove('glass', 'shadow-lg');
+            }
+        });
+        
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        // Close mobile menu when clicking a link
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+        
+        // Typing effect for hero text
+        const heroText = document.getElementById('hero-text');
+        const texts = [
+            'transformam visitantes em clientes',
+            'elevam sua marca online',
+            'impulsionam suas vendas',
+            'criam experiências únicas'
+        ];
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        
+        function typeEffect() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                heroText.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                heroText.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            let typeSpeed = isDeleting ? 50 : 100;
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                typeSpeed = 2000;
+                isDeleting = true;
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                typeSpeed = 500;
+            }
+            
+            setTimeout(typeEffect, typeSpeed);
+        }
+        
+        // Start typing effect after page load
+        setTimeout(typeEffect, 1000);
+        
+        // Form submission
+        const contactForm = document.getElementById('contact-form');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Show success message (in production, this would send to a backend)
+            alert('Mensagem enviada com sucesso! Entraremos em contato em breve. 🚀');
+            contactForm.reset();
+        });
+        
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+        
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe all cards for scroll animations
+        document.querySelectorAll('.glow-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>
